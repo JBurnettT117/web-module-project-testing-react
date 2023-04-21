@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Show from './../Show';
-import { userEvent } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { handleRequest } from 'msw';
 
 const testShow = {
@@ -10,14 +10,14 @@ const testShow = {
     summary:"test summary",
     seasons: [
         {
-            id:0,
+            id: "0",
             name: "Season 1",
-            episode: []
+            episodes: []
         },
         {
-            id:1,
+            id: "1",
             name: "Season 2",
-            episode: []
+            episodes: []
         }
     ]
 };
@@ -27,7 +27,7 @@ test('renders without errors', () => {
 });
 
 test('renders Loading component when prop show is null', () => {
-    render(<Show show={null}/>);;
+    render(<Show show={null}/>);
     const loading = screen.queryByTestId("loading-container");
     expect(loading).toBeInTheDocument();
 });
@@ -42,7 +42,7 @@ test('handleSelect is called when an season is selected', () => {
     const handleSelect = jest.fn();
     render(<Show show={testShow} selectedSeason={"none"} handleSelect={handleSelect}/>);
     const select= screen.getByLabelText(/select a season/i);
-    userEvent.selectOptions(select, [1]);
+    userEvent.selectOptions(select, ["1"]);
     expect(handleSelect).toBeCalled();
 });
 
@@ -51,5 +51,5 @@ test('component renders when no seasons are selected and when rerenders with a s
     let episodes = screen.queryByTestId("episodes-container");
     expect(episodes).not.toBeInTheDocument();
 
-    rerender(<Show show={testShow} selectedSeason={1}/>);
+    rerender(<Show show={testShow} selectedSeason={"1"}/>);
 });
